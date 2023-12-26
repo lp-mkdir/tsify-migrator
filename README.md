@@ -29,9 +29,11 @@ yarn tsify-migrator
 Modify tsconfig.no-any.json to include a new existing module, e.g., app/module-one/feature-two.
 Run yarn tsify-migrator and address identified 'no-any' cases.
 Ensure the cleaned module is included in tsconfig.no-any.json before merging.
-To streamline the transition, consider using lint-staged + husky to run this command in every commit.
 
 Enjoy a seamless TypeScript migration! 🚀
+
+## Further steps
+To streamline the transition, consider using lint-staged + husky to run this command in every commit.
 
 ## Special Handling
 The magic happens at lines 14 & 36 in the script. This unique approach ensures that an error code of 1 is treated as a success when 'no-any' errors are absent.
@@ -40,4 +42,4 @@ The magic happens at lines 14 & 36 in the script. This unique approach ensures t
 Found a bug or want to contribute? Feel free to open an issue or submit a pull request. Your feedback is valuable!
 
 ## License
-This project is licensed under the MIT License. Feel free to use, modify, and share! 🌐✨
+This project is licensed under the MIT License. Feel free to use, modify, and share! 🌐
