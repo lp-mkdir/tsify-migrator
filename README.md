@@ -6,10 +6,10 @@ Migrating to TypeScript comes with its challenges, especially dealing with 'no-a
 
 ## How to Use
 The TSify Migrator consists of two files:
-
+```
 /scripts/tsifyMigrator.mjs
 ./tsconfig.no-any.json
-
+```
 ## Workflow to Migrate:
 
 1. Create a new branch to address a specific module with 'no-any' cases.
