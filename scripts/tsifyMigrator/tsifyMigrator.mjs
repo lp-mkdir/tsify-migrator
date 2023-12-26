@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import { exec } from 'node:child_process';
+import { exec as _exec } from 'node:child_process';
 
 /**
  * L:14 & L:36 -> Why the special handling of error code 1?
@@ -9,32 +9,28 @@ import { exec } from 'node:child_process';
  * leading to an "error code 1." This behavior is precisely what we expect to confirm the success
  * of our migration process.
  */
-const execRun = (cmd) =>
-  new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout) => {
-      if (error) {
-        if (error.code === 1) {
-          resolve(stdout);
-        } else {
-          reject(error);
-        }
-      } else {
-        resolve(stdout);
-      }
-    });
+const exec = (cmd) => new Promise((resolve, reject) => {
+  _exec(cmd, { ignoreExitCode: true }, (error, stdout) => {
+    if (error) {
+      resolve(stdout);
+    } else {
+      resolve(stdout);
+    }
   });
+});
 
-function getIncludePaths() {
+
+function getTsconfigIncludePaths() {
   const tsconfig = fs.readFileSync(`./tsconfig.no-any.json`, 'utf8');
   const regex = /[*]/g;
 
   return JSON.parse(tsconfig).include.map((path) => path.replace(regex, ''));
 }
 
-async function findBadOnes() {
+async function TsifyMigrator() {
   try {
-    const pathStringList = getIncludePaths().join('|');
-    const results = await execRun(`yarn tsc -b tsconfig.no-any.json | grep -E '${pathStringList}'`);
+    const tsconfigIncludeList = getTsconfigIncludePaths().join('|');
+    const results = await exec(`yarn tsc -b tsconfig.no-any.json | grep -E '${tsconfigIncludeList}'`);
 
     /**
      * If we have stdout, then means that there are some
@@ -43,7 +39,7 @@ async function findBadOnes() {
     if (results) {
       console.log(results);
       console.log(chalk.red('ERROR: noImplicitAny failed -> Please fix the missing modules/files shown above.'));
-      console.log(chalk.red(`Local debugger command: yarn tsc -b ./tsconfig.json | grep -E '${pathStringList}'`));
+      console.log(chalk.red(`Local debugger command: yarn tsc -b ./tsconfig.json | grep -E '${tsconfigIncludeList}'`));
       process.exit(1); // Exit with an error code
     }
 
@@ -54,4 +50,4 @@ async function findBadOnes() {
   }
 }
 
-findBadOnes();
+TsifyMigrator();
