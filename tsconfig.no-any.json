@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "app/module-one/feature-one"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "noImplicitAny": true
+  }
+}

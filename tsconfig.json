@@ -1,5 +1,6 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/**/*"],
+  "exclude": ["node_modules", ".remix", "build", "public"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
@@ -8,7 +9,7 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
-    "strict": true,
+    "strict": false,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
