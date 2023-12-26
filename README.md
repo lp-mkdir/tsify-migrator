@@ -1,38 +1,43 @@
-# Welcome to Remix!
+# TSify Migrator 🚀
+Smoothly transition your codebase to TypeScript with the TSify Migrator! 🌐
 
-- [Remix Docs](https://remix.run/docs)
+## Why this Migrator?
+Migrating to TypeScript comes with its challenges, especially dealing with 'no-any' issues. This custom script is tailored to interpret an error code of 1 as a success. 🎉 If the TypeScript Compiler (TSC) doesn't find 'no-any' errors, it returns "error code 1," confirming a successful migration.
 
-## Development
+## How to Use
+The TSify Migrator consists of two files:
 
-From your terminal:
+/scripts/tsifyMigrator.mjs
+./tsconfig.no-any.json
 
-```sh
-npm run dev
+## Workflow to Migrate:
+
+1. Create a new branch to address a specific module with 'no-any' cases.
+2. Add the module to tsconfig.no-any.json within the include section.
+3. Run the migrator script using yarn tsify-migrator to identify and address 'no-any' cases.
+4. Ensure all issues are resolved before merging the branch.
+
+## Reproducing the Issue:
+Inside the app/ folder, the module called module-one/ contains three sub-folders. Only feature-one does not have 'no-any' cases. To reproduce:
+```
+git checkout chore/tsify-case-1
+yarn tsify-migrator
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+## Manual Steps:
 
-## Deployment
+Modify tsconfig.no-any.json to include a new existing module, e.g., app/module-one/feature-two.
+Run yarn tsify-migrator and address identified 'no-any' cases.
+Ensure the cleaned module is included in tsconfig.no-any.json before merging.
+To streamline the transition, consider using lint-staged + husky to run this command in every commit.
 
-First, build your app for production:
+Enjoy a seamless TypeScript migration! 🚀
 
-```sh
-npm run build
-```
+## Special Handling
+The magic happens at lines 14 & 36 in the script. This unique approach ensures that an error code of 1 is treated as a success when 'no-any' errors are absent.
 
-Then run the app in production mode:
+## Issues & Contributions
+Found a bug or want to contribute? Feel free to open an issue or submit a pull request. Your feedback is valuable!
 
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
+## License
+This project is licensed under the MIT License. Feel free to use, modify, and share! 🌐✨
